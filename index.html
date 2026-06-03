@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Reparatur & Metallbau | Gerhard Mairhofer</title>
+    
+    <!-- Suchmaschinen-Optimierung (SEO) -->
+    <meta name="description" content="Mobiler Fachbetrieb für Schweißarbeiten, Metallbau und Reparaturen in Altenfelden, Oberösterreich. Schnelle Vor-Ort-Hilfe für Landmaschinen, Nutzfahrzeuge und individuelle Sonderlösungen von Meisterhand.">
+    <meta name="keywords" content="Gerhard Mairhofer, Mobile Reparatur, Schlosser Altenfelden, Schweißen Oberösterreich, Landmaschinenreparatur, Metallbau Haselbach, Hydraulikservice, Geländerbau, Ihr Mobiler Schlosser">
+    
+    <!-- Tailwind CSS (Styling) & Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Alpine.js (Interaktivität) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Tailwind Konfiguration für die neuen CI-Farben -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: {
+                                50: '#f0f5fa',
+                                500: '#305ba5', /* Stahlblau */
+                                600: '#244b8b', /* Dunkleres Blau für Hover */
+                                900: '#1a335c', 
+                            },
+                            yellow: {
+                                500: '#ffed00', /* Elektrogelb */
+                                600: '#d9ca00', /* Dunkleres Gelb für Kontraste */
+                            },
+                            950: '#0a0c10', /* Deep Slate Black */
+                            900: '#12151c', /* Dark Charcoal */
+                            800: '#1e232d', /* Dark Gray */
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        [x-cloak] { display: none !important; }
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-brand-blue-500 selection:text-white" 
+      x-data="{ mobileMenu: false, isScrolled: false, impressumOpen: false, datenschutzOpen: false, cookieBannerOpen: !localStorage.getItem('cookieConsent') }" 
+      @scroll.window="isScrolled = (window.pageYOffset > 50)">
+
+    <!-- Floating Quick-Contact Button (Desktop & Mobile) -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+        <a href="tel:+4367761428781" class="bg-brand-blue-500 hover:bg-brand-blue-600 text-white p-4 rounded-full shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 group" title="Direkt anrufen">
+            <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+            </svg>
+            <span class="absolute right-14 bg-brand-900 text-white text-xs font-bold px-3 py-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap shadow-md border border-white/10 hidden md:inline">+43 677 614 287 81</span>
+        </a>
+    </div>
+
+    <!-- Header / Navigation -->
+    <header :class="isScrolled ? 'bg-brand-950/95 backdrop-blur-md py-3 border-b border-white/10 shadow-xl' : 'bg-transparent py-5 border-b border-white/5'" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            
+            <!-- Logo Integration mit automatischem Text-Fallback bei Fehlern -->
+            <a href="#" class="flex items-center">
+                <img src="logo.png" alt="Mairhofer - Ihr Mobiler Schlosser" class="h-12 sm:h-16 w-auto object-contain transition-transform duration-300 hover:scale-[1.02]" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                
+                <!-- Fallback Text falls logo.png nicht vorhanden ist -->
+                <div class="hidden flex-col" style="display: none;">
+                    <span class="text-lg sm:text-xl font-heading font-bold tracking-tight text-white">
+                        GERHARD <span class="text-brand-blue-500">MAIRHOFER</span>
+                    </span>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-slate-400">Ihr Mobiler Schlosser</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold tracking-wide">
+                <a href="#" class="hover:text-brand-blue-500 transition">Startseite</a>
+                <a href="#leistungen" class="hover:text-brand-blue-500 transition">Leistungen</a>
+                <a href="#ueber-uns" class="hover:text-brand-blue-500 transition">Über Uns</a>
+                <a href="#referenzen" class="hover:text-brand-blue-500 transition">Referenzen</a>
+                <a href="#vorteile" class="hover:text-brand-blue-500 transition">Vorteile</a>
+                <a href="#kontakt" class="hover:text-brand-blue-500 transition">Kontakt</a>
+            </nav>
+
+            <!-- CTA Header -->
+            <div class="hidden lg:flex items-center gap-5">
+                <a href="tel:+4367761428781" class="text-sm font-bold flex items-center gap-2 text-slate-200 hover:text-brand-blue-500 transition">
+                    <svg class="w-4 h-4 text-brand-blue-500" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-1C7.82 18 2 12.18 2 5V3z"/></svg>
+                    +43 677 614 287 81
+                </a>
+                <a href="#kontakt" class="bg-brand-blue-500 hover:bg-brand-blue-600 text-white px-5 py-2.5 rounded-lg text-sm font-bold transition duration-300">
+                    Einsatz anfordern
+                </a>
+            </div>
+
+            <!-- Hamburger Button -->
+            <button @click="mobileMenu = !mobileMenu" class="lg:hidden text-white focus:outline-none p-2 border border-white/10 rounded-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="!mobileMenu"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-show="mobileMenu" x-cloak><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div x-show="mobileMenu" x-cloak class="lg:hidden bg-brand-950 border-b border-white/10 absolute top-full left-0 right-0 py-8 px-6 space-y-4 shadow-2xl">
+            <a href="#" @click="mobileMenu = false" class="block text-lg font-medium hover:text-brand-blue-500 transition">Startseite</a>
+            <a href="#leistungen" @click="mobileMenu = false" class="block text-lg font-medium hover:text-brand-blue-500 transition">Leistungen</a>
+            <a href="#ueber-uns" @click="mobileMenu = false" class="block text-lg font-medium hover:text-brand-blue-500 transition">Über Uns</a>
+            <a href="#referenzen" @click="mobileMenu = false" class="block text-lg font-medium hover:text-brand-blue-500 transition">Referenzen</a>
+            <a href="#vorteile" @click="mobileMenu = false" class="block text-lg font-medium hover:text-brand-blue-500 transition">Vorteile</a>
+            <a href="#kontakt" @click="mobileMenu = false" class="block text-lg font-medium hover:text-brand-blue-500 transition">Kontakt</a>
+            <div class="pt-6 border-t border-white/10 flex flex-col gap-4">
+                <a href="tel:+4367761428781" class="flex items-center justify-center gap-3 text-lg font-bold text-brand-blue-500 py-2">
+                    +43 677 614 287 81
+                </a>
+                <a href="#kontakt" @click="mobileMenu = false" class="block text-center bg-brand-blue-500 py-3 rounded-lg font-bold text-white">
+                    Einsatz anfordern
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center bg-brand-950 pt-28 pb-16 overflow-hidden bg-grid">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-950 via-transparent to-transparent z-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-950 via-brand-950/80 to-transparent z-10"></div>
+        
+        <!-- Background Graphic (Industrial Light Effect) -->
+        <div class="absolute right-0 top-1/4 w-[500px] h-[500px] bg-brand-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="relative max-w-7xl mx-auto px-6 w-full z-20 grid lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-left">
+                <div class="inline-flex items-center gap-2 bg-brand-yellow-500/10 border border-brand-yellow-500/20 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-widest text-brand-yellow-500">
+                    <span class="w-2 h-2 rounded-full bg-brand-yellow-500 animate-pulse"></span>
+                    Einsatzgebiet: Ganz Oberösterreich
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold leading-tight tracking-tight text-white">
+                    Mobiler Fachbetrieb für <br class="hidden sm:inline" />
+                    <span class="text-brand-yellow-500 font-extrabold">Schweißarbeiten</span>, 
+                    <span class="text-brand-blue-500 font-extrabold">Metallbau</span> &amp; Reparatur.
+                </h1>
+                
+                <p class="text-base sm:text-lg text-slate-300 max-w-xl leading-relaxed">
+                    Ihr Spezialist für schnelle Hilfe direkt vor Ort. Ob Landmaschinen, Nutzfahrzeuge, individueller Geländerbau oder hochbelastbare Sonderkonstruktionen – wir sorgen für Stabilität und minimale Ausfallzeiten.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                    <a href="#kontakt" class="bg-brand-blue-500 hover:bg-brand-blue-600 text-white text-center px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 shadow-lg shadow-brand-blue-500/20 hover:scale-[1.02]">
+                        Jetzt unverbindlich anfragen
+                    </a>
+                    <a href="tel:+4367761428781" class="border border-white/10 hover:border-brand-blue-500 hover:bg-white/5 text-white text-center px-8 py-4 rounded-xl font-bold text-base transition-all duration-300 flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5 text-brand-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        +43 677 614 287 81
+                    </a>
+                </div>
+
+                <!-- Trust Elements -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-8 border-t border-white/10">
+                    <div>
+                        <span class="block text-2xl font-heading font-bold text-brand-blue-500">100%</span>
+                        <span class="text-xs text-slate-400">Flexibler Vor-Ort-Service</span>
+                    </div>
+                    <div>
+                        <span class="block text-2xl font-heading font-bold text-brand-blue-500">Meisterbetrieb</span>
+                        <span class="text-xs text-slate-400">Geprüfte Metalltechnik</span>
+                    </div>
+                    <div class="col-span-2 sm:col-span-1">
+                        <span class="block text-2xl font-heading font-bold text-brand-blue-500">Oberösterreich</span>
+                        <span class="text-xs text-slate-400">Regional &amp; zuverlässig</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hero Image / Visual Element -->
+            <div class="lg:col-span-5 relative">
+                <div class="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-brand-blue-500 to-brand-yellow-500 opacity-20 blur-xl"></div>
+                <div class="relative bg-brand-900 border border-white/10 rounded-2xl p-6 overflow-hidden">
+                    <div class="absolute top-2 right-2 bg-brand-blue-500 text-white text-[10px] font-bold px-3 py-1 rounded-md uppercase tracking-wider">Werkstatt &amp; Mobil</div>
+                    <!-- Technical Grid Blueprint styling -->
+                    <div class="border border-white/5 rounded-lg p-5 bg-brand-950 space-y-4">
+                        <div class="flex items-center gap-3 border-b border-white/10 pb-3">
+                            <span class="w-3 h-3 rounded-full bg-brand-yellow-500"></span>
+                            <span class="font-heading font-bold text-sm tracking-wide">METALLBAUMEISTERBETRIEB</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300">
+                            <li class="flex items-center gap-2">
+                                <span class="text-brand-blue-500">✔</span> Schweißarbeiten (WIG, MIG, MAG, Elektro)
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-brand-blue-500">✔</span> Mobil-Reparatur für Bau &amp; Agrar
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-brand-blue-500">✔</span> Schlosserarbeiten &amp; Konstruktionen
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="text-brand-blue-500">✔</span> Hydraulik-Instandsetzung
+                            </li>
+                        </ul>
+                        <div class="bg-brand-900 p-3 rounded-lg border border-white/5 text-xs text-slate-400">
+                            <strong>Gerhard Mairhofer:</strong> "Wir reparieren da, wo der Schaden entsteht - direkt vor Ort auf Ihrem Hof, im Wald oder der Baustelle."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services / Leistungen Section -->
+    <section id="leistungen" class="py-24 px-6 bg-brand-900 border-t border-b border-white/5" x-data="{ selectedCategory: 'all' }">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-brand-blue-500 font-bold uppercase tracking-widest text-xs">Umfangreiches Leistungsportfolio</h2>
+                <p class="text-3xl sm:text-4xl font-heading font-bold text-white tracking-tight">Unsere Kernkompetenzen im Detail</p>
+                <p class="text-slate-400 text-sm">Vom klassischen Geländerbau bis zur Notfallreparatur von Spezial-Forstmaschinen.</p>
+                <div class="w-16 h-1 bg-brand-blue-500 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
+                <button @click="selectedCategory = 'all'" :class="selectedCategory === 'all' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300 hover:bg-brand-700'" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">Alle Leistungen</button>
+                <button @click="selectedCategory = 'schweissen'" :class="selectedCategory === 'schweissen' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300 hover:bg-brand-700'" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">Schweißarbeiten</button>
+                <button @click="selectedCategory = 'metallbau'" :class="selectedCategory === 'metallbau' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300 hover:bg-brand-700'" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">Metall- &amp; Geländerbau</button>
+                <button @click="selectedCategory = 'reparatur'" :class="selectedCategory === 'reparatur' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300 hover:bg-brand-700'" class="px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all">Maschinenreparatur &amp; Hydraulik</button>
+            </div>
+
+            <!-- Grid Items -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Schweißarbeiten -->
+                <div x-show="selectedCategory === 'all' || selectedCategory === 'schweissen'" x-transition class="bg-brand-950 border border-white/10 rounded-xl p-8 hover:border-brand-blue-500/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-blue-500/10 text-brand-blue-500 rounded-lg flex items-center justify-center mb-6 font-heading font-bold text-xl border border-brand-blue-500/20 group-hover:bg-brand-blue-500 group-hover:text-white transition-colors">01</div>
+                    <h3 class="text-xl font-heading font-bold text-white mb-3">Schweißarbeiten</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Zertifizierte WIG-, MIG- und MAG-Schweißverfahren direkt vor Ort. Reparatur von Rissen und Brüchen an Maschinen aus Stahl, Edelstahl (Nirosta) und Aluminium.
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1.5 border-t border-white/5 pt-4">
+                        <li>• Bauteil-Aufpanzerungen</li>
+                        <li>• Edelstahl- &amp; Aluschweißen</li>
+                        <li>• Zertifizierte Ausführung</li>
+                    </ul>
+                </div>
+
+                <!-- Geländerbau -->
+                <div x-show="selectedCategory === 'all' || selectedCategory === 'metallbau'" x-transition class="bg-brand-950 border border-white/10 rounded-xl p-8 hover:border-brand-blue-500/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-blue-500/10 text-brand-blue-500 rounded-lg flex items-center justify-center mb-6 font-heading font-bold text-xl border border-brand-blue-500/20 group-hover:bg-brand-blue-500 group-hover:text-white transition-colors">02</div>
+                    <h3 class="text-xl font-heading font-bold text-white mb-3">Geländerbau &amp; Handläufe</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Sicherheit und Ästhetik nach Maß. Wir planen, fertigen und montieren hochwertige Geländersysteme für Balkone, Terrassen und Treppenaufgänge im Außen- und Innenbereich.
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1.5 border-t border-white/5 pt-4">
+                        <li>• Edelstahl- und Glasgeländer</li>
+                        <li>• Pulverbeschichtung &amp; Verzinkung</li>
+                        <li>• Präzise Montage vor Ort</li>
+                    </ul>
+                </div>
+
+                <!-- Metallbau -->
+                <div x-show="selectedCategory === 'all' || selectedCategory === 'metallbau'" x-transition class="bg-brand-950 border border-white/10 rounded-xl p-8 hover:border-brand-blue-500/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-blue-500/10 text-brand-blue-500 rounded-lg flex items-center justify-center mb-6 font-heading font-bold text-xl border border-brand-blue-500/20 group-hover:bg-brand-blue-500 group-hover:text-white transition-colors">03</div>
+                    <h3 class="text-xl font-heading font-bold text-white mb-3">Torbau &amp; Treppenbau</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Konstruktion von modernen Treppenanlagen, Hoftoren, Überdachungen und Carports. Ausführung komplett nach Ihren Wünschen für Privat- und Gewerbekunden.
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1.5 border-t border-white/5 pt-4">
+                        <li>• Robuste Hof- &amp; Einfahrtstore</li>
+                        <li>• Treppenunterkonstruktionen</li>
+                        <li>• Überdachungen &amp; Tragkonstruktionen</li>
+                    </ul>
+                </div>
+
+                <!-- Landmaschinenreparatur -->
+                <div x-show="selectedCategory === 'all' || selectedCategory === 'reparatur'" x-transition class="bg-brand-950 border border-white/10 rounded-xl p-8 hover:border-brand-blue-500/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-blue-500/10 text-brand-blue-500 rounded-lg flex items-center justify-center mb-6 font-heading font-bold text-xl border border-brand-blue-500/20 group-hover:bg-brand-blue-500 group-hover:text-white transition-colors">04</div>
+                    <h3 class="text-xl font-heading font-bold text-white mb-3">Landmaschinenreparatur</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Wir kommen mit unserer mobilen Werkstatt direkt aufs Feld oder auf Ihren Hof. Fachgerechte mechanische Instandsetzung von Traktoren, Ladewagen und Pflügen.
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1.5 border-t border-white/5 pt-4">
+                        <li>• Reparatur im Ernteeinsatz</li>
+                        <li>• Verschleißteil-Austausch</li>
+                        <li>• Mechanische Optimierungen</li>
+                    </ul>
+                </div>
+
+                <!-- Forst- & Nutzfahrzeuge -->
+                <div x-show="selectedCategory === 'all' || selectedCategory === 'reparatur'" x-transition class="bg-brand-950 border border-white/10 rounded-xl p-8 hover:border-brand-blue-500/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-blue-500/10 text-brand-blue-500 rounded-lg flex items-center justify-center mb-6 font-heading font-bold text-xl border border-brand-blue-500/20 group-hover:bg-brand-blue-500 group-hover:text-white transition-colors">05</div>
+                    <h3 class="text-xl font-heading font-bold text-white mb-3">Nutzfahrzeugreparatur</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Instandsetzung von Trailern, LKW-Anbaugeräten, Baggerschaufeln und Ladebordwänden. Schnelle Schweißungen an tragenden Bauteilen und Achskonstruktionen.
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1.5 border-t border-white/5 pt-4">
+                        <li>• Forstmaschinen &amp; Kranreparatur</li>
+                        <li>• Aufpanzerung von Baggerschaufeln</li>
+                        <li>• Baustellen-Notfallhilfe</li>
+                    </ul>
+                </div>
+
+                <!-- Sonderlösungen & Hydraulik -->
+                <div x-show="selectedCategory === 'all' || selectedCategory === 'reparatur' || selectedCategory === 'schweissen'" x-transition class="bg-brand-950 border border-white/10 rounded-xl p-8 hover:border-brand-blue-500/50 transition-all duration-300 group">
+                    <div class="w-12 h-12 bg-brand-blue-500/10 text-brand-blue-500 rounded-lg flex items-center justify-center mb-6 font-heading font-bold text-xl border border-brand-blue-500/20 group-hover:bg-brand-blue-500 group-hover:text-white transition-colors">06</div>
+                    <h3 class="text-xl font-heading font-bold text-white mb-3">Hydraulik &amp; Sonderlösungen</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Behebung von Hydraulik-Defekten, Montage von Zusatzkomponenten an bestehenden Maschinen sowie Entwicklung innovativer Eigenkonstruktionen nach Anforderung.
+                    </p>
+                    <ul class="text-xs text-slate-500 space-y-1.5 border-t border-white/5 pt-4">
+                        <li>• Hydraulik-Komponententausch</li>
+                        <li>• Individueller Maschinenumbau</li>
+                        <li>• Maßgeschneiderte Vorrichtungen</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (Über uns) -->
+    <section id="ueber-uns" class="py-24 px-6 bg-brand-950 relative overflow-hidden bg-grid">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-12 gap-16 items-center">
+            
+            <div class="lg:col-span-5 relative">
+                <!-- Visual Box simulating raw steel plate and craft aesthetics -->
+                <div class="bg-brand-900 border-2 border-brand-blue-500/20 rounded-2xl p-8 space-y-6 relative">
+                    <div class="absolute -top-4 -left-4 w-12 h-12 bg-brand-blue-500 text-white font-bold text-lg rounded-xl flex items-center justify-center shadow-lg">GM</div>
+                    <div class="border-l-4 border-brand-blue-500 pl-4 py-2">
+                        <span class="block text-xs uppercase tracking-wider text-slate-400">Inhaber &amp; Gründer</span>
+                        <h4 class="text-xl font-heading font-bold text-white">Gerhard Mairhofer</h4>
+                    </div>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        "Traditionelle Handwerkskunst gepaart mit moderner, mobiler Ausrüstung. Mein Ziel ist es, Ihnen unkompliziert, sicher und vor allem dauerhaft stabil zu helfen - direkt bei Ihnen vor Ort."
+                    </p>
+                    <div class="bg-brand-950 p-4 rounded-lg border border-white/5 text-xs text-slate-400 space-y-1">
+                        <div><strong>Standort:</strong> Haselbach 29, 4121 Altenfelden</div>
+                        <div><strong>Zuständigkeit:</strong> Ganz Oberösterreich &amp; Umland</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6">
+                <span class="text-brand-blue-500 font-bold uppercase tracking-widest text-xs">Wer ich bin &amp; Mein Weg</span>
+                <h2 class="text-3xl sm:text-4xl font-heading font-bold tracking-tight text-white">Präzision aus Meisterhand</h2>
+                
+                <div class="space-y-4 text-slate-300 text-sm leading-relaxed">
+                    <p>
+                        Weil ich in meinem Beruf viel mit Reparaturen, Wartungen und Schweißarbeiten zu tun hatte, begann ich im <strong>Jänner 2012</strong> mit einer Unternehmerprüfung, darauf folgte die Meisterprüfung in Metalltechnik, welche ich im <strong>Juni 2012</strong> erfolgreich abschloss.
+                    </p>
+                    <p>
+                        Im <strong>September 2015</strong> gründete ich das Unternehmen <strong class="text-white">„Ihr Mobiler Schlosser“</strong>. Seitdem bin ich für Sie mit einem sehr gut ausgestatteten Werkstatt-LKW unterwegs.
+                    </p>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-6 pt-4 border-t border-white/10">
+                    <div class="space-y-2">
+                        <h4 class="font-heading font-bold text-white flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-brand-yellow-500 rounded-full"></span> Werkstatt-LKW
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Vollwertig ausgerüstet mit Werkzeugen und leistungsstarken Aggregaten für alle Arbeiten im Freien.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <h4 class="font-heading font-bold text-white flex items-center gap-2">
+                            <span class="w-1.5 h-1.5 bg-brand-yellow-500 rounded-full"></span> Meisterprüfung
+                        </h4>
+                        <p class="text-xs text-slate-400 leading-relaxed">Staatlich geprüfte Qualität in der Metalltechnik garantiert erstklassige Ausführungen.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- References Gallery (Referenzen) -->
+    <section id="referenzen" class="py-24 px-6 bg-brand-900 border-t border-b border-white/5" x-data="{ activeFilter: 'all', modalOpen: false, modalTitle: '', modalDesc: '', modalImg: '' }">
+        <div class="max-w-7xl mx-auto">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-brand-blue-500 font-bold uppercase tracking-widest text-xs">Arbeitsproben &amp; Projekte</h2>
+                <p class="text-3xl sm:text-4xl font-heading font-bold text-white tracking-tight">Erfolgreich gelöste Projekte</p>
+                <p class="text-slate-400 text-sm">Sehen Sie hier eine Auswahl unserer Arbeiten – von der Notfall-Reparatur bis zur Maßanfertigung.</p>
+                <div class="w-16 h-1 bg-brand-blue-500 mx-auto rounded-full"></div>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex justify-center gap-3 mb-12">
+                <button @click="activeFilter = 'all'" :class="activeFilter === 'all' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300'" class="px-4 py-2 rounded-lg text-xs font-semibold transition-all">Alle</button>
+                <button @click="activeFilter = 'reparatur'" :class="activeFilter === 'reparatur' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300'" class="px-4 py-2 rounded-lg text-xs font-semibold transition-all">Reparaturen</button>
+                <button @click="activeFilter = 'metallbau'" :class="activeFilter === 'metallbau' ? 'bg-brand-blue-500 text-white' : 'bg-brand-800 text-slate-300'" class="px-4 py-2 rounded-lg text-xs font-semibold transition-all">Metallbau</button>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'reparatur'" class="bg-brand-950 rounded-xl overflow-hidden border border-white/10 group cursor-pointer transition-transform hover:-translate-y-1"
+                     @click="modalOpen = true; modalTitle = 'Ladewagen Reperatur'; modalDesc = 'Reparatur eines Ladewagens direkt beim Kunden vor Ort auf dem Feld.'">
+                    <div class="relative h-48 bg-slate-800 flex items-center justify-center text-slate-500 text-xs uppercase tracking-widest bg-cover bg-center" style="background-image: url('ladewagen.jpg');">
+                        <div class="absolute inset-0 bg-brand-950/60 group-hover:bg-brand-950/20 transition-all"></div>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-brand-blue-500 font-bold uppercase">Reparatur</span>
+                        <h4 class="text-lg font-heading font-bold text-white mt-2">Ladewagen-Reperatur</h4>
+                        <p class="text-slate-400 text-xs mt-2 line-clamp-2">Schnelle Reperatur der Landmaschine, um Stillstandszeiten zu verhindern.</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div x-show="activeFilter === 'all' || activeFilter === 'metallbau'" class="bg-brand-950 rounded-xl overflow-hidden border border-white/10 group cursor-pointer transition-transform hover:-translate-y-1"
+                     @click="modalOpen = true; modalTitle = 'Edelstahlbalkongeländer nach Maß'; modalDesc = 'Planung und präzise Montage eines witterungsbeständigen Balkongeländers aus Alu, Stahl oder Nirosta - Pflegeleicht und extrem robust konstruiert.'">
+                    <div class="relative h-48 bg-slate-800 flex items-center justify-center text-slate-500 text-xs uppercase tracking-widest bg-cover bg-center" style="background-image: url('balkon.jpg');">
+                        <div class="absolute inset-0 bg-brand-950/60 group-hover:bg-brand-950/20 transition-all"></div>
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs text-brand-blue-500 font-bold uppercase">Metallbau / Geländer</span>
+                        <h4 class="text-lg font-heading font-bold text-white mt-2">Balkongeländer</h4>
+                        <p class="text-slate-400 text-xs mt-2 line-clamp-2">Modernes, langlebiges Geländer aus rostfreien Materialien wie Alu, Stahl oder Nirosta.</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+<div x-show="activeFilter === 'all' || activeFilter === 'reparatur'" class="bg-brand-950 rounded-xl overflow-hidden border border-white/10 group cursor-pointer transition-transform hover:-translate-y-1"
+        @click="modalOpen = true; 
+                modalTitle = 'Hydraulik-Instandsetzung Forstmaschinen'; 
+                modalDesc = 'Dieses Projekt zeigt die erfolgreiche Überprüfung, Abdichtung und Wartung einer zentralen hydraulischen Antriebseinheit direkt beim Kunden vor Ort.';
+                modalImg = 'hydraulik_pumpe_detail.jpg'"> <div class="relative h-48 bg-slate-800 bg-cover bg-center" style="background-image: url('hydraulik_pumpe.jpg');">
+            <div class="absolute inset-0 bg-brand-950/60 group-hover:bg-brand-950/20 transition-all"></div>
+        </div> <div class="p-6">
+                        <span class="text-xs text-brand-blue-500 font-bold uppercase">Reparatur &amp; Hydraulik</span>
+                        <h4 class="text-lg font-heading font-bold text-white mt-2">Notfall-Hydraulikservice</h4>
+                        <p class="text-slate-400 text-xs mt-2 line-clamp-2">Fachgerechte Instandsetzung und Wartung einer Hydraulik-Pumpeneinheit</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Project Detail Modal -->
+<div x-show="modalOpen" 
+     x-cloak 
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-950/90 backdrop-blur-md" 
+     @keydown.escape.window="modalOpen = false; modalImg = ''"> <div class="bg-brand-900 border border-white/10 max-w-lg w-full rounded-2xl p-6 relative" 
+         @click.away="modalOpen = false; modalImg = ''"> <button @click="modalOpen = false; modalImg = ''" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl font-bold">&times;</button>
+        <span class="text-[10px] uppercase tracking-wider text-brand-blue-500 font-bold">PROJEKTDETAILS</span>
+        <h3 class="text-xl font-heading font-bold text-white mt-2" x-text="modalTitle"></h3>
+        
+        <p class="text-slate-300 text-sm mt-4 leading-relaxed" x-text="modalDesc"></p>
+        
+        <div x-show="modalImg" class="mt-4 rounded-xl overflow-hidden border border-white/10">
+            <img :src="modalImg" alt="Projektbild" class="w-full h-auto object-cover max-h-64">
+        </div>
+
+        <div class="mt-6 flex justify-end">
+            <button @click="modalOpen = false; modalImg = '';" class="bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold text-xs px-5 py-2.5 rounded-lg">Schließen</button>
+        </div>
+    </div>
+</div>
+    </section>
+
+    <!-- USP / Kundenvorteile Section -->
+    <section id="vorteile" class="py-24 px-6 bg-brand-950 relative overflow-hidden bg-grid">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <h2 class="text-brand-blue-500 font-bold uppercase tracking-widest text-xs">Vorteile bei Gerhard Mairhofer</h2>
+                <p class="text-3xl sm:text-4xl font-heading font-bold text-white tracking-tight">Warum Kunden uns vertrauen</p>
+                <div class="w-16 h-1 bg-brand-blue-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- USP 1 -->
+                <div class="bg-brand-900/50 border border-white/5 rounded-xl p-6 space-y-3">
+                    <span class="text-brand-blue-500 text-3xl font-heading font-bold">01</span>
+                    <h4 class="font-heading font-bold text-white text-lg">Keine Transportwege</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Wir reparieren direkt vor Ort. Lästige und teure Transporte defekter Großmaschinen in eine stationäre Werkstatt entfallen komplett.</p>
+                </div>
+
+                <!-- USP 2 -->
+                <div class="bg-brand-900/50 border border-white/5 rounded-xl p-6 space-y-3">
+                    <span class="text-brand-blue-500 text-3xl font-heading font-bold">02</span>
+                    <h4 class="font-heading font-bold text-white text-lg">Maximale Schnelligkeit</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Egal ob im Wald, auf der Baustelle oder am Feld - durch die mobile Schweißausrüstung sind wir in Rekordzeit einsatzbereit.</p>
+                </div>
+
+                <!-- USP 3 -->
+                <div class="bg-brand-900/50 border border-white/5 rounded-xl p-6 space-y-3">
+                    <span class="text-brand-blue-500 text-3xl font-heading font-bold">03</span>
+                    <h4 class="font-heading font-bold text-white text-lg">Individuelles Design</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Ihr Wunsch ist unser Bauplan. Wir fertigen Bauteile, Geländer, Treppen und Halterungen exakt nach Ihren Vorstellungen an.</p>
+                </div>
+
+                <!-- USP 4 -->
+                <div class="bg-brand-900/50 border border-white/5 rounded-xl p-6 space-y-3">
+                    <span class="text-brand-blue-500 text-3xl font-heading font-bold">04</span>
+                    <h4 class="font-heading font-bold text-white text-lg">Meisterprüfung</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">Höchste Qualität nach dem österreichischen Gewerberecht. Sicherheit, Planungskonformität und statische Robustheit stehen an erster Stelle.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section (Kontakt) -->
+    <section id="kontakt" class="py-24 px-6 bg-brand-900 border-t border-white/10" x-data="{ success: false }">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-12 gap-16 items-start">
+                
+                <!-- Contact Info -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div class="space-y-4">
+                        <span class="text-brand-blue-500 font-bold uppercase tracking-widest text-xs">Kontakt aufnehmen</span>
+                        <h2 class="text-3xl sm:text-4xl font-heading font-bold text-white">Lassen Sie uns über Ihr Projekt sprechen</h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Sie benötigen eine schnelle Vor-Ort-Reparatur, ein Angebot für ein Geländer oder planen eine individuelle Sonderanfertigung? Senden Sie eine Nachricht oder rufen Sie direkt an.
+                        </p>
+                    </div>
+
+                    <!-- Direct Contacts -->
+                    <div class="space-y-4 border-t border-white/10 pt-6">
+                        <a href="tel:+4367761428781" class="flex items-center gap-4 text-slate-300 hover:text-brand-blue-500 transition group">
+                            <div class="w-10 h-10 bg-brand-950 border border-white/10 rounded-lg flex items-center justify-center group-hover:border-brand-blue-500/50 transition">
+                                <svg class="w-5 h-5 text-brand-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-500">Direkt-Telefon</span>
+                                <span class="text-sm font-bold text-white">+43 677 614 287 81</span>
+                            </div>
+                        </a>
+
+                        <a href="mailto:office@mobile-reparatur.at" class="flex items-center gap-4 text-slate-300 hover:text-brand-blue-500 transition group">
+                            <div class="w-10 h-10 bg-brand-950 border border-white/10 rounded-lg flex items-center justify-center group-hover:border-brand-blue-500/50 transition">
+                                <svg class="w-5 h-5 text-brand-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-500">E-Mail-Adresse</span>
+                                <span class="text-sm font-bold text-white">office@mobile-reparatur.at</span>
+                            </div>
+                        </a>
+
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="w-10 h-10 bg-brand-950 border border-white/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-brand-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            </div>
+                            <div>
+                                <span class="block text-xs text-slate-500">Standort &amp; Werkstatt</span>
+                                <span class="text-sm font-bold text-white">Haselbach 29, 4121 Altenfelden, OÖ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Map Placeholder -->
+                    <div class="border border-white/10 rounded-xl overflow-hidden bg-brand-950 p-3">
+                        <div class="h-44 bg-slate-900 rounded-lg flex flex-col items-center justify-center text-center p-4">
+                            <svg class="w-8 h-8 text-brand-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                            <span class="text-xs font-semibold text-white">Einsatzgebiet: Ganz Oberösterreich</span>
+                            <span class="text-[10px] text-slate-500 mt-1">Haselbach 29, 4121 Altenfelden</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:col-span-7 bg-brand-950 border border-white/10 rounded-2xl p-8 shadow-xl">
+                    <div x-show="!success">
+                        <form action="mail.php" method="POST" class="space-y-6">
+                            <div class="grid sm:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Name *</label>
+                                    <input type="text" name="kunden_name" required class="w-full bg-brand-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-blue-500 transition">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Telefonnummer *</label>
+                                    <input type="tel" name="kunden_tell" required class="w-full bg-brand-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-blue-500 transition">
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">E-Mail Adresse (optional)</label>
+                                <input type="email" name="kunden_email" class="w-full bg-brand-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-blue-500 transition">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Betreff / Art des Einsatzes</label>
+                                <select name="kunden_betreff" class="w-full bg-brand-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-blue-500 transition">
+                                    <option class="bg-brand-900">Bitte auswählen...</option>
+                                    <option class="bg-brand-900">Notfall-Vor-Ort-Reparatur</option>
+                                    <option class="bg-brand-900">Schweißarbeiten</option>
+                                    <option class="bg-brand-900">Metallbau (Geländer, Treppen, Tore)</option>
+                                    <option class="bg-brand-900">Sonderlösungen / Sonstiges</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Nachricht / Schadensbeschreibung *</label>
+                                <textarea name="kunden_nachricht" rows="5" required placeholder="Beschreiben Sie hier Ihr Anliegen möglichst detailliert..." class="w-full bg-brand-900 border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-blue-500 transition"></textarea>
+                            </div>
+
+                            <div class="text-xs text-slate-500">
+                                * Pflichtfelder. Ihre Daten werden vertraulich behandelt und ausschließlich zur Bearbeitung Ihres Anliegens verwendet.
+                            </div>
+
+                            <button type="submit" class="w-full bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold py-4 rounded-lg text-base transition duration-300">
+                                Unverbindliche Anfrage senden
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Success State -->
+                    <div x-show="success" x-cloak class="text-center py-12 space-y-4">
+                        <div class="w-16 h-16 bg-brand-blue-500/10 text-brand-blue-500 rounded-full flex items-center justify-center mx-auto border border-brand-blue-500/20">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-heading font-bold text-white">Anfrage erfolgreich übermittelt!</h3>
+                        <p class="text-slate-400 text-sm max-w-sm mx-auto">Vielen Dank für Ihre Nachricht. Gerhard Mairhofer wird sich in Kürze persönlich bei Ihnen telefonisch oder per E-Mail melden.</p>
+                        <button @click="success = false" class="text-brand-blue-500 font-semibold text-sm hover:underline mt-4 block mx-auto font-heading">Neue Nachricht senden</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-950 border-t border-white/10 py-12 px-6 text-slate-500 text-xs pb-32 sm:pb-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
+            
+            <!-- Footer Logo Integration -->
+            <div class="space-y-4 text-center sm:text-left">
+                <img src="logo.png" alt="Mairhofer - Ihr Mobiler Schlosser" class="h-10 sm:h-12 w-auto object-contain mx-auto sm:mx-0" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                
+                <!-- Fallback Text falls logo.png nicht vorhanden ist -->
+                <p class="text-white font-heading font-bold hidden" style="display: none;">GERHARD MAIRHOFER</p>
+                
+                <p class="text-slate-500">© 2026 Mobile Reparatur – Gerhard Mairhofer. Alle Rechte vorbehalten.</p>
+                <p class="text-slate-500">Haselbach 29, 4121 Altenfelden, Oberösterreich</p>
+            </div>
+            
+            <div class="flex flex-wrap gap-4 sm:gap-6 justify-center">
+                <a href="#leistungen" class="hover:text-white transition">Leistungen</a>
+                <button @click="impressumOpen = true" class="hover:text-white transition">Impressum</button>
+                <button @click="datenschutzOpen = true" class="hover:text-white transition">Datenschutz</button>
+                <button @click="cookieBannerOpen = true" class="hover:text-white transition text-slate-400 hover:text-brand-blue-500 font-medium">Cookie-Einstellungen</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Consent Banner -->
+    <div x-show="cookieBannerOpen" x-cloak 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="transform translate-y-10 opacity-0"
+         x-transition:enter-end="transform translate-y-0 opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="transform translate-y-0 opacity-100"
+         x-transition:leave-end="transform translate-y-10 opacity-0"
+         class="fixed bottom-6 left-6 right-6 md:right-auto md:max-w-md bg-brand-900 border border-white/10 rounded-2xl p-6 shadow-2xl z-50">
+        <div class="space-y-4">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-brand-blue-500/10 flex items-center justify-center text-brand-blue-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+                <h4 class="font-heading font-bold text-white text-sm">Privatsphäre &amp; Cookies</h4>
+            </div>
+            <p class="text-slate-300 text-xs leading-relaxed">
+                Wir verwenden Cookies, um unsere Website nutzerfreundlich zu gestalten, Funktionen anzubieten und die Zugriffe auf unsere Website zu analysieren. Sie können entscheiden, welche Cookies Sie zulassen möchten.
+            </p>
+            <div class="flex flex-wrap items-center gap-2 pt-2">
+                <button @click="localStorage.setItem('cookieConsent', 'all'); cookieBannerOpen = false" class="flex-1 bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg transition">
+                    Alle akzeptieren
+                </button>
+                <button @click="localStorage.setItem('cookieConsent', 'necessary'); cookieBannerOpen = false" class="flex-1 bg-brand-800 hover:bg-brand-700 text-slate-300 font-bold text-xs px-4 py-2.5 rounded-lg transition border border-white/5">
+                    Nur essenzielle
+                </button>
+                <button @click="datenschutzOpen = true" class="w-full md:w-auto bg-transparent hover:bg-white/5 text-slate-400 font-medium text-xs px-3 py-2 rounded-lg transition text-center">
+                    Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Impressum Modal -->
+    <div x-show="impressumOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-950/95 backdrop-blur-md" @keydown.escape.window="impressumOpen = false">
+        <div class="bg-brand-900 border border-white/10 max-w-lg w-full rounded-2xl p-8 relative max-h-[90vh] overflow-y-auto" @click.away="impressumOpen = false">
+            <button @click="impressumOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            <span class="text-[10px] uppercase tracking-wider text-brand-blue-500 font-bold">RECHTLICHE ANGABEN</span>
+            <h3 class="text-2xl font-heading font-bold text-white mt-2 border-b border-white/10 pb-4 font-heading">Impressum</h3>
+            
+            <div class="mt-6 space-y-6 text-slate-300 text-sm leading-relaxed">
+                <div>
+                    <strong class="text-white block text-xs uppercase tracking-wider text-slate-400">Diensteanbieter &amp; Medieninhaber:</strong>
+                    <p class="mt-1 font-semibold text-white">Gerhard Mairhofer</p>
+                    <p>Haselbach 29</p>
+                    <p>A-4121 Altenfelden</p>
+                    <p>Österreich</p>
+                </div>
+
+                <div>
+                    <strong class="text-white block text-xs uppercase tracking-wider text-slate-400">Kontakt:</strong>
+                    <p class="mt-1">Tel.: <a href="tel:+4367761428781" class="text-brand-blue-500 hover:underline">+43 677 614 287 81</a></p>
+                    <p>E-Mail: <a href="mailto:office@mobile-reparatur.at" class="text-brand-blue-500 hover:underline">office@mobile-reparatur.at</a></p>
+                    <p>Web: <a href="https://www.mobile-reparatur.at" target="_blank" class="text-brand-blue-500 hover:underline">www.mobile-reparatur.at</a></p>
+                </div>
+
+                <div class="border-t border-white/5 pt-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <strong class="text-white block text-xs uppercase tracking-wider text-slate-400">Umsatzsteuer-ID:</strong>
+                        <p class="mt-1 font-mono text-xs text-brand-yellow-500">UID-Nr.: ATU69828056</p>
+                    </div>
+                    <div>
+                        <strong class="text-white block text-xs uppercase tracking-wider text-slate-400">Bankverbindung:</strong>
+                        <p class="mt-1 font-mono text-[11px] break-all">IBAN: AT12 3430 0000 00 41 6040</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-white/5 pt-4 text-xs text-slate-400">
+                    <p><strong>Gewerbeordnung:</strong> Metalltechnik für Metall- und Portalbau (Meisterbetrieb)</p>
+                    <p class="mt-1">Aufsichtsbehörde: Bezirkshauptmannschaft Rohrbach</p>
+                    <p>Mitglied der Wirtschaftskammer Oberösterreich</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <button @click="impressumOpen = false" class="bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold text-xs px-6 py-3 rounded-lg transition">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Datenschutz Modal (Benutzerdefinierter Datenschutztext) -->
+    <div x-show="datenschutzOpen" x-cloak class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-brand-950/95 backdrop-blur-md" @keydown.escape.window="datenschutzOpen = false">
+        <div class="bg-brand-900 border border-white/10 max-w-2xl w-full rounded-2xl p-8 relative max-h-[85vh] overflow-y-auto" @click.away="datenschutzOpen = false">
+            <button @click="datenschutzOpen = false" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            <span class="text-[10px] uppercase tracking-wider text-brand-blue-500 font-bold">RECHTLICHE ANGABEN</span>
+            <h3 class="text-2xl font-heading font-bold text-white mt-2 border-b border-white/10 pb-4 font-heading font-heading">Datenschutzerklärung</h3>
+            
+            <div class="mt-6 space-y-6 text-slate-300 text-xs sm:text-sm leading-relaxed text-left">
+                <p class="font-semibold text-slate-200">Der Schutz Ihrer persönlichen Daten ist uns ein besonderes Anliegen. Wir verarbeiten Ihre Daten daher ausschließlich auf Grundlage der gesetzlichen Bestimmungen (DSGVO, TKG 2003). In diesen Datenschutzinformationen informieren wir Sie über die wichtigsten Aspekte der Datenverarbeitung im Rahmen unserer Website.</p>
+                
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading">Kontakt mit uns</h4>
+                    <p>Wenn Sie per Formular auf der Website oder per E-Mail Kontakt mit uns aufnehmen, werden Ihre angegebenen Daten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen sechs Monate bei uns gespeichert. Diese Daten geben wir nicht ohne Ihre Einwilligung weiter.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading">Cookies</h4>
+                    <p>Unsere Website verwendet so genannte Cookies. Dabei handelt es sich um kleine Textdateien, die mit Hilfe des Browsers auf Ihrem Endgerät abgelegt werden. Sie richten keinen Schaden an.</p>
+                    <p class="mt-2">Wir nutzen Cookies dazu, unser Angebot nutzerfreundlich zu gestalten. Einige Cookies bleiben auf Ihrem Endgerät gespeichert, bis Sie diese löschen. Sie ermöglichen es uns, Ihren Browser beim nächsten Besuch wiederzuerkennen.</p>
+                    <p class="mt-2">Wenn Sie dies nicht wünschen, so können Sie Ihren Browser so einrichten, dass er Sie über das Setzen von Cookies informiert und Sie dies nur im Einzelfall erlauben.</p>
+                    <p class="mt-2">Bei der Deaktivierung von Cookies kann die Funktionalität unserer Website eingeschränkt sein.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading">Änderungen unserer Datenschutzerklärungen</h4>
+                    <p>Wir behalten uns das Recht vor unsere Datenschutzerklärungen zu ändern falls die aufgrund neuer Technologien notwendig sein sollte. Bitte stellen Sie sicher, dass Ihnen die aktuellste Version vorliegt.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading">Links</h4>
+                    <p>Links die von unserer Seite auf andere Internetseiten verweisen unterliegen nicht dieser Datenschutzerklärung. Wir tun unser Bestes, dass alle auf unserer Seite verwendeten Links unseren Anforderungen genügen. Dennoch haben wir keine Gewalt über den Inhalt dieser Seiten und können nicht dafür garantieren, dass diese unseren Datenschutzstandards entsprechen. Daher raten wir Ihnen sich die Datenschutzerklärungen der Seiten die Sie besuchen zu überprüfen.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading">Ihre Rechte</h4>
+                    <p>Ihnen stehen grundsätzlich die Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerruf und Widerspruch zu. Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verstößt oder Ihre datenschutzrechtlichen Ansprüche sonst in einer Weise verletzt worden sind, können Sie sich bei der Aufsichtsbehörde beschweren. In Österreich ist dies die Datenschutzbehörde.</p>
+                </div>
+
+                <div class="bg-brand-950 p-5 rounded-xl border border-white/5 space-y-1">
+                    <h4 class="font-bold text-white text-xs uppercase tracking-wider text-slate-400 mb-2 font-heading font-heading">Sie erreichen uns unter folgenden Kontaktdaten:</h4>
+                    <p class="font-semibold text-white">Gerhard Mairhofer</p>
+                    <p>Haselbach 29</p>
+                    <p>4121 Altenfelden</p>
+                    <p>Tel. : 0677 614 287 81</p>
+                    <p>E-Mail: <a href="mailto:office@mobile-reparatur.at" class="text-brand-blue-500 hover:underline">office@mobile-reparatur.at</a></p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading">Web-Analyse</h4>
+                    <p>Diese Website benutzt Google Analytics, einen Webanalienst der Google Inc. (“Google”). Google Analytics verwendet sog. “Cookies”, Textdateien, die auf Ihrem Computer gespeichert werden und die eine Analyse der Benutzung der Website durch Sie ermöglichen. Die durch den Cookie erzeugten Informationen über Ihre Benutzung dieser Website werden in der Regel an einen Server von Google in den USA übertragen und dort gespeichert. Im Falle der Aktivierung der IP-Anonymisierung auf dieser Webseite, wird Ihre IP-Adresse von Google jedoch innerhalb von Mitgliedstaaten der Europäischen Union oder in anderen Vertragsstaaten des Abkommens über den Europäischen Wirtschaftsraum zuvor gekürzt. Nur in Ausnahmewällen wird die volle IP-Adresse an einen Server von Google in den USA übertragen und dort gekürzt. Im Auftrag des Betreibers dieser Website wird Google diese Informationen benutzen, um Ihre Nutzung der Website auszuwerten, um Reports über die Websiteaktivitäten zusammenzustellen und um weitere mit der Websitenutzung und der Internetnutzung verbundene Dienstleistungen gegenüber dem Websitebetreiber zu erbringen. Die im Rahmen von Google Analytics von Ihrem Browser übermittelte IP-Adresse wird nicht mit anderen Daten von Google zusammengeführt.</p>
+                    <p class="mt-2">Sie können die Speicherung der Cookies durch eine entsprechende Einstellung Ihrer Browser-Software verhindern; wir weisen Sie jedoch darauf hin, dass Sie in diesem Fall gegebenenfalls nicht sämtliche Funktionen dieser Website vollumfänglich werden nutzen können. Sie können darüber hinaus die Erfassung der durch das Cookie erzeugten und auf Ihre Nutzung der Website gezogenen Daten (inkl. Ihrer IP-Adresse) an Google sowie die Verarbeitung dieser Daten durch Google, wie nachfolgend beschrieben, verhindern:</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading font-heading">Widerspruchsmöglichkeit</h4>
+                    <p>Der Datenerhebung und -speicherung durch Google Analytics kann jederzeit mit Wirkung für die Zukunft widersprochen werden. Sie haben dazu die Möglichkeit, ein von Google herausgegebenes Browser-Plugin zu installieren. Dieses steht für verschiedene Browser-Versionen zur Verfügung und kann unter <a href="http://tools.google.com/dlpage/gaoptout?hl=de" target="_blank" class="text-brand-blue-500 hover:underline">http://tools.google.com/dlpage/gaoptout?hl=de</a> heruntergeladen werden.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-base mt-4 mb-2 font-heading font-heading font-heading font-heading">Verwendung von Facebook Social Plugins</h4>
+                    <p>Unser Internetauftritt verwendet Social Plugins („Plugins“) des sozialen Netzwerkes facebook.com, welches von der Facebook Inc., 1601 S. California Ave, Palo Alto, CA 94304, USA betrieben wird („Facebook“). Die Plugins sind mit einem Facebook Logo oder dem Zusatz „Facebook Social Plugin“ gekennzeichnet.</p>
+                    <p class="mt-2">Wenn Sie eine Webseite unseres Internetauftritts aufrufen, die ein solches Plugin enthält, baut Ihr Browser eine direkte Verbindung mit den Servern von Facebook auf. Der Inhalt des Plugins wird von Facebook direkt an Ihren Browser übermittelt und von diesem in die Webseite eingebunden.</p>
+                    <p class="mt-2">Durch die Einbindung der Plugins erhält Facebook die Information, dass Sie die entsprechende Seite unseres Internetauftritts aufgerufen haben. Sind Sie bei Facebook eingeloggt kann Facebook den Besuch Ihrem Facebook-Konto zuordnen. Wenn Sie mit den Plugins interagieren, zum Beispiel den „Gefällt mir“ Button betätigen oder einen Kommentar abgeben, wird die entsprechende Information von Ihrem Browser direkt an Facebook übermittelt und dort gespeichert.</p>
+                    <p class="mt-2">Zweck und Umfang der Datenerhebung und die weitere Verarbeitung und Nutzung der Daten durch Facebook sowie Ihre diesbezüglichen Rechte und Einstellungsmöglichkeiten zum Schutz Ihrer Privatssphäre entnehmen Sie bitte den Datenschutzhinweisen von Facebook (<a href="http://www.facebook.com/policy.php" target="_blank" class="text-brand-blue-500 hover:underline">http://www.facebook.com/policy.php</a>). Wenn Sie nicht möchten, dass Facebook über unseren Internetauftritt Daten über Sie sammelt, müssen Sie sich vor Ihrem Besuch unseres Internetauftritts bei Facebook ausloggen.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end">
+                <button @click="datenschutzOpen = false" class="bg-brand-blue-500 hover:bg-brand-blue-600 text-white font-bold text-xs px-6 py-3 rounded-lg transition">Schließen</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
