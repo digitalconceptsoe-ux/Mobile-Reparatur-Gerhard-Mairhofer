@@ -809,6 +809,63 @@
             </div>
         </div>
     </div>
+<div id="demo-popup" style="
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,0.85);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 99999;
+padding: 20px;
+">
 
+    <div style="
+    max-width: 600px;
+    width: 100%;
+    background: #12151c;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    padding: 30px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    ">
+
+        <h2 style="
+        font-size: 28px;
+        margin-bottom: 15px;
+        color: #ffed00;
+        ">
+            Demo-Website
+        </h2>
+
+        <p style="
+        line-height: 1.7;
+        color: #cbd5e1;
+        margin-bottom: 25px;
+        ">
+            Diese Website ist <strong>nicht die offizielle Website</strong> von
+            diesem Unternehmen.
+            <br><br>
+            Es handelt sich um einen unverbindlichen Design- und Konzeptentwurf,
+            der ausschließlich zu Präsentationszwecken erstellt wurde.
+        </p>
+
+        <button onclick="document.getElementById('demo-popup').style.display='none'"
+        style="
+        background:#305ba5;
+        color:white;
+        border:none;
+        padding:14px 28px;
+        border-radius:10px;
+        font-weight:bold;
+        cursor:pointer;
+        ">
+            Demo ansehen
+        </button>
+
+    </div>
+</div>
 </body>
 </html>
